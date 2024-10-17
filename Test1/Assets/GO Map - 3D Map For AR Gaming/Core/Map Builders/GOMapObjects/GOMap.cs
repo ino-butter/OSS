@@ -181,7 +181,6 @@ namespace GoMap
 			if (!dynamicLoad) {
 				yield break;
 			}
-			Debug.Log("load map");
 			GOFeature.BuildingElevationOffset *= locationManager.worldScale;
 			GOFeature.RoadsHeightForElevation *= locationManager.worldScale;
 
@@ -219,7 +218,6 @@ namespace GoMap
                     }
                 }
 			}
-			Debug.Log("end load map");
 			//Destroy far tiles
 			List <Vector2> tileListForDestroy = location.adiacentNTiles(zoomLevel,tileBuffer+1);
             if (destroyTilesRoutine!= null)
