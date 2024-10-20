@@ -13,17 +13,16 @@ public class ChatGPT : MonoBehaviour
     private string apiKey = "sk-XoTMKf8LmzmC2r2JaTMvD593EDnVtYGOKRbz_pcQIrT3BlbkFJF-pJENxv6otr83NfYfv9lok-1TUoD-g13VUiUCWvoA"; // Replace with an actual API key
     private string apiUrl = "https://api.openai.com/v1/chat/completions";
 
+    [SerializeField]
+    private GameObject waitText;
+
     [SerializeField, TextArea(3, 5)] private string promptField;
     [SerializeField] public Texture2D textureSample;
-    public void TestAPI()
+    public void Send2DTexture()
     {
         if (textureSample == null)
             return;
         StartCoroutine(GetImageGPTResponse(textureSample, OnResponseReceived));
-    }
-    private void Start()
-    {
-        StartCoroutine(GetChatGPTResponse(promptField, OnResponseReceived));
     }
     void OnResponseReceived(string response)
     {
@@ -36,7 +35,7 @@ public class ChatGPT : MonoBehaviour
         string base64Image = System.Convert.ToBase64String(imageBytes);
 
         // Setting OpenAI API Request Data
-
+        waitText.gameObject.SetActive(true);
         var jsonData = new
         {
             model = "gpt-4o-mini",
@@ -116,6 +115,7 @@ public class ChatGPT : MonoBehaviour
             var response = JsonConvert.DeserializeObject<OpenAIResponse>(responseText);
             callback(response.choices[0].message.content.Trim());
         }
+        waitText.gameObject.SetActive(false);
     }
     public IEnumerator GetChatGPTResponse(string _prompt, System.Action<string> callback)
     {

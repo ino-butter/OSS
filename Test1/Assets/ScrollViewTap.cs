@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,8 +47,6 @@ public class ScrollViewTap : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         float smoothValue = Mathf.Lerp(scrollRect.verticalNormalizedPosition, newValue, Time.deltaTime * 10f);
 
         scrollRect.verticalNormalizedPosition = smoothValue;
-
-        Debug.Log("Normalized Scroll Value: " + smoothValue);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -63,10 +62,12 @@ public class ScrollViewTap : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             if (endPos.y > dragStartPosition.y)
             {
+                DOTween.To(() => scrollRect.verticalNormalizedPosition, x => scrollRect.verticalNormalizedPosition = x, 0, 2f).SetSpeedBased();
                 Debug.Log("빠른 위로 스와이프 감지됨");
             }
             else
             {
+                DOTween.To(() => scrollRect.verticalNormalizedPosition, x => scrollRect.verticalNormalizedPosition = x, 1, 2f).SetSpeedBased();
                 Debug.Log("빠른 아래로 스와이프 감지됨");
             }
         }

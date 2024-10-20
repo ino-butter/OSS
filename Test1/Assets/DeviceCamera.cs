@@ -10,53 +10,30 @@ public class DeviceCamera : MonoBehaviour
     WebCamTexture camTexture;
 
     public RawImage cameraViewImage; //카메라가 보여질 화면
-    public bool isEnableCamera = true;
     [Header("Setting")]
     public Vector2 requestedRatio; //설정하고자 하는 카메라 비율
     public int requestedFPS; //설정하고자 하는 프레임
     private void Start()
     {
         chatGPT = GetComponent<ChatGPT>();
+
     }
     private void Update()
     {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    isEnableCamera = !isEnableCamera;
-                    if (isEnableCamera)
-                        CameraOn();
-                    else
-                        CameraOff();
-                    Debug.Log("TouchPhase Began!");
-                    break;
-                case TouchPhase.Moved:
-                    Debug.Log("TouchPhase Moved!");
-                    break;
-                case TouchPhase.Stationary:
-                    Debug.Log("TouchPhase Stationary!");
-                    break;
-                case TouchPhase.Ended:
-                    Texture2D tex = new Texture2D(camTexture.width, camTexture.height);
-                    tex.SetPixels(camTexture.GetPixels());
-                    tex.Apply();
-                    chatGPT.textureSample = tex;
-                    chatGPT.TestAPI();
-                    Debug.Log("TouchPhase Ended!");
-                    break;
-                case TouchPhase.Canceled:
-                    Debug.Log("TouchPhase Canceled!");
-                    break;
-            }
-        }
-        //UpdateWebCamRawImage();
+        UpdateWebCamRawImage();
+    }
+    private void OnEnable()
+    {
+        CameraOn();
+    }
+    private void OnDisable()
+    {
+        CameraOff();
     }
 
     public void CameraOn() //카메라 켜기
     {
+        cameraViewImage.gameObject.SetActive(true);
         //카메라 권한 확인
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
@@ -86,17 +63,6 @@ public class DeviceCamera : MonoBehaviour
             //선택된 후면 카메라를 가져옴.
             int requestedWidth = Screen.width; //설정하고자 하는 가로 픽셀 변수 선언 (현재 화면의 가로 픽셀을 기본값으로 지정)
             int requestedHeight = Screen.height; //설정하고자 하는 세로 픽셀 변수 선언 (현재 화면의 세로 픽셀을 기본값으로 지정)
-            //for (int i = 0, l = devices[selectedCameraIndex].availableResolutions.Length; i < l; ++i) //현재 선택된 후방 카메라가 활용할 수 있는 해상도를 탐색하면서
-            //{
-            //    Resolution resolution = devices[selectedCameraIndex].availableResolutions[i];
-            //    if (GetAspectRatio((int)requestedRatio.x, (int)requestedRatio.y).Equals(GetAspectRatio(resolution.width, resolution.height))) //설정하고자 하는 비율과 일치하는 해상도를 발견하면
-            //    {
-            //        requestedWidth = resolution.width; //설정하고자 하는 가로 픽셀로 지정
-            //        requestedHeight = resolution.height; //설정하고자 하는 세로 픽셀로 지정
-            //        break; //반복문 빠져나오기
-            //    }
-            //}
-            Debug.Log(requestedWidth + " - " + requestedHeight);
             camTexture = new WebCamTexture(devices[selectedCameraIndex].name, requestedWidth, requestedHeight, requestedFPS); //카메라 이름으로 WebCamTexture 생성
 
             camTexture.filterMode = FilterMode.Point;
@@ -135,6 +101,7 @@ public class DeviceCamera : MonoBehaviour
 
         if (Mathf.Abs(videoRotAngle) % 180 != 0f) Swap(ref width, ref height); //WebCamTexture 자체가 회전되어있는 경우 가로/세로 값을 교환
         cameraViewImage.rectTransform.sizeDelta = new Vector2(width, height); //RawImage의 size로 지정
+        
     }
     private void Swap<T>(ref T a, ref T b) //두 변수값을 교환하는 함수
     {
@@ -150,6 +117,7 @@ public class DeviceCamera : MonoBehaviour
     }
     public void CameraOff() //카메라 끄기
     {
+        cameraViewImage.gameObject.SetActive(false);
         if (camTexture != null)
         {
             camTexture.Stop(); //카메라 정지
@@ -157,7 +125,14 @@ public class DeviceCamera : MonoBehaviour
             camTexture = null; //변수 초기화
         }
     }
-
+    public void CaptureToVision()
+    {
+        Texture2D tex = new Texture2D(camTexture.width, camTexture.height);
+        tex.SetPixels(camTexture.GetPixels());
+        tex.Apply();
+        chatGPT.textureSample = tex;
+        chatGPT.Send2DTexture();
+    }
 
 
     //private void Start()
