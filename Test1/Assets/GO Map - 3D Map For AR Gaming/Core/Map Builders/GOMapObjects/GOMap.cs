@@ -75,7 +75,6 @@ namespace GoMap
 
 		void Start () 
 	    {
-			Debug.Log(osm_api_key);
 			buildingsIds = new List<object>();
 			tiles = new List<GOTile>();
 			containers = new List<GOCenterContainer>();

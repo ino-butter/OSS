@@ -986,11 +986,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11458246, guid: 2eb893fe48df34d2f8555a95c4675ac6, type: 3}
       propertyPath: tileBuffer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11458246, guid: 2eb893fe48df34d2f8555a95c4675ac6, type: 3}
       propertyPath: osm_api_key
-      value: 'sk-XoTMKf8LmzmC2r2JaTMvD593EDnVtYGOKRbz_pcQIrT3BlbkFJF-pJENxv6otr83NfYfv9lok-1TUoD-g13VUiUCWvoA '
+      value: ssQzxgkYv19aEUGpSBB2
       objectReference: {fileID: 0}
     - target: {fileID: 11458246, guid: 2eb893fe48df34d2f8555a95c4675ac6, type: 3}
       propertyPath: locationManager
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   lastLocations: []
   currentMotionState: 0
   useLocationServices: 1
-  demoLocation: 0
+  demoLocation: 1
   updateDistance: 0.1
   simulateMotion: 0
   useWsadInEditor: 1

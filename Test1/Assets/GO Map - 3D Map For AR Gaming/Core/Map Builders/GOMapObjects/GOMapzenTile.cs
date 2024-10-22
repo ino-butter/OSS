@@ -24,7 +24,6 @@ namespace GoMap
             parent.name = layer.name;
             parent.transform.parent = this.transform;
             parent.SetActive(!layer.startInactive);
-
             if (mapData == null)
             {
                 Debug.LogWarning("Map Data is null!");

@@ -25,7 +25,8 @@ namespace GoMap {
 			Water,
 			Earth,
 			Roads,
-			Pois
+			Pois,
+			Ground,
 		}
 
 		public bool isPolygon;
@@ -71,6 +72,8 @@ namespace GoMap {
 				return "road";
 			case GOLayerType.Pois:
 				return "poi_label";
+			case GOLayerType.Ground:
+				return "ground";
 			default:
 				return "";
 			}		
@@ -90,7 +93,9 @@ namespace GoMap {
 				return "transportation";
 			case GOLayerType.Pois:
 				return "poi";
-			default:
+			case GOLayerType.Ground:
+				return "ground";
+				default:
 				return "";
 			}		
 		}
@@ -128,6 +133,8 @@ namespace GoMap {
 				return 0.1f;
 			case GOLayerType.Roads:
 				return 0.4f;
+			case GOLayerType.Ground:
+				return 0;
 			default:
 				return 0;
 			}		
@@ -145,7 +152,9 @@ namespace GoMap {
                     return 3;
                 case GOLayerType.Roads:
                     return 4;
-                default :return 100;
+				case GOLayerType.Ground:
+					return 5;
+				default :return 100;
             }
         }
 

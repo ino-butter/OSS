@@ -9,7 +9,7 @@ namespace LocationManagerEnums
     public enum DemoLocation
     {
         NewYork,
-        Rome,
+        Tongmyong,
         NewYork2,
         Venice,
         SanFrancisco,
@@ -58,10 +58,8 @@ namespace LocationManagerEnums
             {
                 case DemoLocation.NewYork:
                    return new Coordinates(40.783435, -73.966249, 0);
-                case DemoLocation.NewYork2:
-                    return new Coordinates(40.70193632375534, -74.01628977185595, 0);
-                case DemoLocation.Rome:
-                    return new Coordinates(41.910509366663945, 12.476284503936768, 0);
+                case DemoLocation.Tongmyong:
+                    return new Coordinates(35.120183, 129.103121, 0);
                 case DemoLocation.Venice:
                     return new Coordinates(45.433184, 12.336831, 0);
                 case DemoLocation.SanFrancisco:

@@ -40,7 +40,6 @@ namespace GoMap {
 				this.filename = string.Format("[{0}][{1}]{2} - {3}",tileObj.mapType.ToString (),type.ToString(),tileObj.name,tileCoords);
 
 			this.type = type;
-
 		}
 
 		public void Download(MonoBehaviour host, Action <byte[],string,string> action) {

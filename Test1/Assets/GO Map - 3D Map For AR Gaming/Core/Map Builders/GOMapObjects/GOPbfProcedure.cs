@@ -70,7 +70,6 @@ namespace GoMap
 
             //Sort layers so that the order is right for dropping environment
             Array.Sort(layers, (GOLayer a, GOLayer b) => GOLayer.LayerTypeToIndex(a.layerType).CompareTo(GOLayer.LayerTypeToIndex(b.layerType)));
-
             foreach (GOLayer layer in layers)
             {
 
@@ -114,9 +113,9 @@ namespace GoMap
         {
 
             string[] lyrs = tile.GetLayersStrings(layer).Split(',');
+
             foreach (string l in lyrs)
             {
-
                 VectorTileLayer lyr = vt.GetLayer(l);
                 if (lyr != null)
                 {
@@ -130,7 +129,6 @@ namespace GoMap
                     pl.name = lyr.Name;
                     pl.goLayer = layer;
                     pl.goFeatures = new List<GOFeature>();
-
                     int indexOfLayer = GOLayer.LayerTypeToIndex(layer.layerType);
                     // if (goTile.mapType == GOMap.GOMapType.Mapbox || goTile.mapType == GOMap.GOMapType.Nextzen)
                     // {
@@ -153,7 +151,6 @@ namespace GoMap
                         {
                             gf = new GOFeature();
                         }
-
                         gf.properties = vtf.GetProperties();
                         gf.attributes = GOFeature.PropertiesToAttributes(gf.properties);
                         gf.goFeatureType = vtf.GOFeatureType(geomWgs);

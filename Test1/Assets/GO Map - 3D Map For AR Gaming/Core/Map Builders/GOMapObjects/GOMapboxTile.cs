@@ -134,7 +134,8 @@ namespace GoMap
 
 		public override string vectorUrl ()
 		{
-			var baseUrl = "https://api.mapbox.com:443/v4/";
+            Debug.Log("a");
+			var baseUrl = "https://api.mapbox.com/styles/v1/ino2222/";
             var tilesetID = "mapbox.mapbox-streets-v8"; //v7 
 
             if (map != null && map.customMapboxTilesets != null)

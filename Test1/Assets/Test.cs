@@ -15,47 +15,92 @@ using UnityEngine.Networking;
 
 public class Test : MonoBehaviour
 {
+    public TextAsset textAsset;
+    public Dictionary<string, Dictionary<string, object>> path_table;
+
+    public TextAsset localTextAsset;
+    public Dictionary<string, Dictionary<string, object>> local;
     public LocationManager locationManager;
     public GOMap goMap;
     public Material testLineMaterial;
     public GOUVMappingStyle testStyle;
 
     public GameObject prefab;
-    // Start is called before the first frame update
-    void OnInteraction()
-    {
+    private NavMeshAgent agent;
 
-        //dropTestLine();
-        string start = "35.121027,129.103394";
-        string goal = "35.120075225830078,129.10319519042969";
-        //StartCoroutine(FetchDirections(start, goal));
-        GeneratePoi();
+    private void Awake()
+    {
+        path_table = CSVReader.ReadStringIndex(textAsset);
+        local = CSVReader.ReadStringIndex(localTextAsset);
     }
-
-    void GeneratePoi()
+    void PathFind(string _start, string _goal)
     {
-        var dir = new Coordinates(35.120075225830078, 129.10319519042969).convertCoordinateToVector();
+        string next = path_table[_start][_goal].ToString();
+        Debug.Log(next);
+        if (next.CompareTo("x") == 0)
+        {
+            Debug.Log(string.Format("find : {0} goal : {1}", next, _goal));
+        }
+        else if (next.CompareTo("e") == 0)
+            return;
+        else
+        {
+            double[] param = new double[4];
+            param[0] = double.Parse(local[_start]["latitude"].ToString());
+            param[1] = double.Parse(local[_start]["longitude"].ToString());
+            param[2] = double.Parse(local[next]["latitude"].ToString());
+            param[3] = double.Parse(local[next]["longitude"].ToString());
+            dropTestLine(param);
+            Debug.Log(string.Format("contiue start : {0} goal : {1}", next, _goal));
+            PathFind(next, _goal);
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+            TestNav();
+        if (Input.GetKeyDown(KeyCode.F2))
+            PathFind("1", "7");
+        MovePoint();
+    }
+    void TestNav()
+    {
+        //NavMeshLink navMeshLink = goMap.transform.GetChild(0).GetComponent<NavMeshLink>();
+        //navMeshLink.startPoint = new Coordinates(35.120183, 129.103121).convertCoordinateToVector();
+        //navMeshLink.endPoint = new Coordinates(35.122774, 129.102742).convertCoordinateToVector();
+        agent = prefab.GetComponent<NavMeshAgent>();
+        agent.transform.position = new Coordinates(35.120075225830078, 129.10319519042969).convertCoordinateToVector();
+        agent.enabled = true;
+    }
+    void MovePoint()
+    {
+        if (agent == null)
+            return;
+        agent.SetDestination(new Coordinates(35.122774, 129.102742).convertCoordinateToVector());
+    }
+    void GeneratePoi(double _latitude, double _longitude)
+    {
+        var dir = new Coordinates(_latitude, _longitude).convertCoordinateToVector();
         dir.y = 30;
         Vector3 rotate = new Vector3(90, 0, 0);
         GameObject obj = Instantiate(prefab, dir, Quaternion.Euler(rotate), null);
         obj.GetComponent<TextMeshPro>().text = "제 1정보통신관";
     }
-    void dropTestLine()
+    void dropTestLine(params double[] _value)
     {
-        Debug.Log("a");
         //1) Create a list of coordinates that will represent the polyline
         List<Coordinates> polyline = new List<Coordinates>();
         var location = locationManager.currentLocation;
         location.altitude = 0;
-        polyline.Add(location);
-        polyline.Add(new Coordinates(35.121027, 129.103394));
+        polyline.Add(new Coordinates(_value[0], _value[1]));
+        polyline.Add(new Coordinates(_value[2], _value[3]));
 
 
         //2) Set line width
         float width = 3;
 
         //3) Set the line height
-        float height = 2;
+        float height = 5;
 
         //4) Choose a material for the line (this time we link the material from the inspector)
         Material material = testLineMaterial;
@@ -64,30 +109,4 @@ public class Test : MonoBehaviour
         goMap.dropLine(polyline, width, height, material, testStyle );
 
     }
-
-    //private IEnumerator FetchDirections(string start, string goal)
-    //{
-
-    //    string api = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
-    //    string url = $"{api}?start={start}&goal={goal}";
-    //    Debug.Log("Naver Dircetions 5 API : " + url);
-    //    using (UnityWebRequest request = UnityWebRequest.Get(url))
-    //    {
-    //        request.SetRequestHeader("X-NCP-APIGW-API-KEY-ID", "lzop1y2nh7");
-    //        request.SetRequestHeader("X-NCP-APIGW-API-KEY", "tuLo6FDIgZGbRYo7K1FQkRPpYLWwCH6OAjvVKRY0");
-
-    //        yield return request.SendWebRequest();
-
-    //        if (request.result == UnityWebRequest.Result.Success)
-    //        {
-    //            string jsonResult = request.downloadHandler.text;
-    //            Debug.Log(jsonResult);
-    //            // JSON 파싱 및 경로 처리
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError("Error: " + request.error);
-    //        }
-    //    }
-    //}
 }

@@ -138,7 +138,6 @@ namespace GoMap
 			for (int i = 0; i < featureCount; i++) {
 
 				GOFeature goFeature = (GOFeature)parsedLayer.goFeatures [i];
-
 				if (goFeature.goFeatureType == GOFeatureType.Undefined || goFeature.goFeatureType == GOFeatureType.MultiPoint) {
 					continue;
 				}
@@ -173,9 +172,7 @@ namespace GoMap
                         }
                     }
                 }
-
 				goFeature.parent = parent;
-
 				iList.Add (goFeature);
 
 			}

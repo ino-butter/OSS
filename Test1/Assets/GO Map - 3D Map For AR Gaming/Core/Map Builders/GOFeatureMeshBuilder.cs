@@ -91,7 +91,6 @@ namespace GoMap
 				return null;
 
 			GameObject polygon = new GameObject();
-
 			Profiler.BeginSample("[GoMap] Start poly2mesh");
 			Poly2Mesh.Polygon poly = new Poly2Mesh.Polygon();
 			poly.outside = feature.convertedGeometry;
