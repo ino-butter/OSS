@@ -73,4 +73,12 @@ public class ScrollViewTap : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         isDragging = false;
     }
+    public void DragUp()
+    {
+        DOTween.To(() => scrollRect.verticalNormalizedPosition, x => scrollRect.verticalNormalizedPosition = x, 0, 2f).SetSpeedBased();
+    }
+    public void DragDown()
+    {
+        DOTween.To(() => scrollRect.verticalNormalizedPosition, x => scrollRect.verticalNormalizedPosition = x, 1, 2f).SetSpeedBased();
+    }
 }

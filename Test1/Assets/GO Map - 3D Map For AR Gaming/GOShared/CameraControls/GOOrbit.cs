@@ -7,6 +7,8 @@ namespace GoShared {
 	public class GOOrbit : MonoBehaviour {
 
 		public Transform target;
+		public Transform player;
+		public Transform lookat;
 		public float distance = 55.0f;
 		public float orbitSpeed = 1.0f;
 //		public float pinchSpeed = 3.0f;
@@ -37,6 +39,20 @@ namespace GoShared {
 
         public bool rotateWithHeading = false;
 
+		public bool isFreeLook = false;
+
+		public bool IsFreeLock
+		{
+			set
+			{
+				isFreeLook = value;
+				if (isFreeLook)
+					target = player;
+				else
+					target = lookat;
+			}
+		}
+
 		// Use this for initialization
 		void Start () 
 		{
@@ -63,7 +79,6 @@ namespace GoShared {
 
 		void LateUpdate () 
 		{
-
 			//		bool condition = (Application.isMobilePlatform && Input.touchCount > 0) || (!Application.isMobilePlatform && (Input.GetMouseButton(0)|| Input.GetAxis("Mouse ScrollWheel") != 0));
             bool condition = (Application.isMobilePlatform && Input.touchCount > 0) || !Application.isMobilePlatform || rotateWithHeading;
 

@@ -14,7 +14,8 @@ namespace GoMap {
 		public bool atomic = true;
 
 		//In the update we detect taps of mouse or touch to trigger a raycast on the ground
-		void Update() {
+		void Update() 
+		{
 
 			bool drag = false;
 			if (Application.isMobilePlatform) {
