@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GO Map - 3D Map For AR Gaming/Demo/POI - Demo.unity
-    guid: 5957a47a787674751ab0ed255f61bb0f
+    path: Assets/GO Map - 3D Map For AR Gaming/Demo/POI - Demo 1.unity
+    guid: a44ce72a06e788b42acc604a38e39fcf
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 63662a41e3d75e64fa633256e9444b8c, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 80879136d7438f04fb80be4785b32a23, type: 2}

@@ -11,7 +11,6 @@ using System.Net;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
@@ -118,10 +117,17 @@ public class Test : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
-            TestNav();
         if (Input.GetKeyDown(KeyCode.F3))
             GeneratePoi();
+        if(Input.GetKeyDown(KeyCode.F4))
+        {
+            scrollViewTap.DragUp();
+        }
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            scrollViewTap.DragDown();
+        }
+        
         MovePoint();
         Orbit();
     }
@@ -171,15 +177,6 @@ public class Test : MonoBehaviour
         //}
     }
 
-    void TestNav()
-    {
-        //NavMeshLink navMeshLink = goMap.transform.GetChild(0).GetComponent<NavMeshLink>();
-        //navMeshLink.startPoint = new Coordinates(35.120183, 129.103121).convertCoordinateToVector();
-        //navMeshLink.endPoint = new Coordinates(35.122774, 129.102742).convertCoordinateToVector();
-        agent = prefab.GetComponent<NavMeshAgent>();
-        agent.transform.position = new Coordinates(35.120075225830078, 129.10319519042969).convertCoordinateToVector();
-        agent.enabled = true;
-    }
     void MovePoint()
     {
         if (agent == null)
